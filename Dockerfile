@@ -11,3 +11,6 @@ RUN yum install -y openssh-server aws-cli ec2-utils jq \
 
 ADD entrypoint.sh /entrypoint.sh
 ADD environment /root/.ssh/environment
+
+RUN ["yum",  "-y", "install", "httpd"]
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
