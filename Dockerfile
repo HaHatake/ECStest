@@ -1,5 +1,6 @@
 FROM amazonlinux:latest
 LABEL amazonlinux
+LABEL hahatake
 ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 22
 RUN install -d /root/.ssh -m 0700
