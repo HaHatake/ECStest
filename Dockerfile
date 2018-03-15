@@ -1,15 +1,27 @@
-FROM ubuntu:16.04
+FROM centos
 
-RUN apt-get update && apt-get install -y openssh-server
-RUN mkdir /var/run/sshd
-RUN echo 'root:screencast' | chpasswd
-RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN yum -y install initscripts MAKEDEV
 
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+RUN yum check
 
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
+RUN yum -y update
+
+RUN yum -y install openssh-server
+
+# 空パスワードの場合は以下をコメントアウト
+# RUN sed -ri 's/^#PermitEmptyPasswords no/PermitEmptyPasswords yes/' /etc/ssh/sshd_config
+
+RUN sed -ri 's/^#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -ri 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
+
+RUN /etc/init.d/sshd start
+
+# 空パスワードの場合は以下をコメントアウト
+# RUN passwd -d root
+
+# 任意のパスワードの場合は以下をコメントアウト & パスワードを書き換える
+# RUN echo 'root:root' | chpasswd
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+
+CMD /sbin/init
