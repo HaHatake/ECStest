@@ -2,7 +2,7 @@
 
 Hi all :)
 
-##How to use container
+#How to use container
 clone this files
 
 docker build . -t nginxtetris
@@ -13,7 +13,7 @@ http://127.0.0.1/
 
 
 
-##Lets learn AWS ECS with illustrations.
+#Lets learn AWS ECS with illustrations.
 
 Source:　Qiita https://qiita.com/hatakkkk/items/c187bbfc72ad8943610e
 
